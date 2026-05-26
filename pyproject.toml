@@ -1,0 +1,31 @@
+[project]
+name = "ai-for-math-research"
+version = "0.1.0"
+description = "A lightweight workspace template for AI-assisted mathematical research."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [
+  { name = "Yaohua-Leo" }
+]
+keywords = [
+  "ai",
+  "mathematics",
+  "research",
+  "reproducibility",
+  "llm"
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Mathematics"
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
