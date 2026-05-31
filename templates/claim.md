@@ -1,23 +1,43 @@
+---
+schema_version: 1
+id: CLAIM-0000
+status: idea
+type: theorem
+depends_on: []
+evidence: []
+assumptions: []
+last_updated: "YYYY-MM-DD"
+---
 # CLAIM-0000: <short name>
 
-Status: idea
+## Statement
 
-Statement:
+State the claim precisely.
 
-Assumptions:
+## Assumptions
 
-Dependencies:
+- State all mathematical assumptions explicitly.
 
-Proof sketch:
+## Proof Sketch
 
-Known gaps:
+No proof has been supplied.
 
-References:
+## Known Gaps
 
-Computational evidence:
+- List missing arguments, unchecked cases, or unresolved assumptions.
 
-Formalization status:
+## References
 
-Verification notes:
+- Add literature references or state `None yet`.
 
-Last updated:
+## Computational Evidence
+
+- Add experiment or tool output paths, or state `None yet`.
+
+## Formalization Status
+
+Not formalized.
+
+## Verification Notes
+
+Explain what has and has not been checked.

@@ -1,0 +1,19 @@
+schema_version: 1
+id: windows-cas-runner
+status: available
+entrypoint: scripts/run_windows_cas.py
+tool_group: windows-cas
+description: >
+  Group-limited wrapper around the registry runner for Windows-native CAS and
+  numerical routes such as Maple, WolframScript, MATLAB, Maxima, Julia, R, and
+  Octave.
+default_command:
+  - python
+  - scripts/run_windows_cas.py
+  - wolframscript
+  - --mode
+  - smoke
+  - --dry-run
+constraints:
+  - Licensed tools must stay explicitly selected.
+  - Prefer batch or CLI modes over GUI sessions.

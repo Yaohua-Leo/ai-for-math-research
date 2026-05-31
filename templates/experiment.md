@@ -1,27 +1,60 @@
+---
+schema_version: 1
+id: EXP-0000
+status: planned
+tool: python
+command:
+  - python
+  - scripts/run_experiment.py
+  - EXP-0000
+inputs: []
+outputs: []
+claims_affected: []
+random_seed: null
+timeout_seconds: null
+---
 # EXP-0000: <title>
 
-Status: planned
+## Question
 
-Question:
+State the experimental question.
 
-Hypothesis:
+## Hypothesis
 
-Plan:
+State what the experiment is expected to support or refute.
 
-Tools:
+## Plan
 
-Inputs:
+Describe the exact computation or tool run.
 
-Run command:
+## Tools
 
-Expected output:
+- List exact tools and versions when known.
 
-Actual output:
+## Inputs
 
-Interpretation:
+- List input files or state `None`.
 
-Claims affected:
+## Expected Output
 
-Limitations:
+List expected output artifacts.
 
-Reproducibility notes:
+## Actual Output
+
+Record produced artifacts after running.
+
+## Interpretation
+
+Explain what the output does and does not support.
+
+## Claims Affected
+
+- List affected claim IDs.
+
+## Limitations
+
+- State truncation, heuristic, numerical, or tool limitations.
+
+## Reproducibility Notes
+
+Record the command and environment notes needed to rerun.

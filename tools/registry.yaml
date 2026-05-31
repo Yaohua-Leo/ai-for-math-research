@@ -1,0 +1,798 @@
+schema_version: 1
+registry_kind: math-tool-registry
+last_updated: "2026-06-01"
+source_snapshot:
+  path: D:\learning\(co)homology_of_Jordan\codex\local-math-tools.md
+  last_checked: "2026-05-24"
+  note: >
+    Local routes were copied from the Jordan workspace tool snapshot. Re-check
+    paths before relying on any licensed, WSL, or user-profile command.
+
+project_skills:
+  - id: math-python-exact
+    path: skills/math-python-exact/SKILL.md
+    tool_ids:
+      - python
+      - python-scientific-stack
+    status: available
+  - id: math-sage
+    path: skills/math-sage/SKILL.md
+    tool_ids:
+      - sagemath-wsl
+      - gap-sage
+      - singular-sage
+    status: available
+  - id: math-windows-cas
+    path: skills/math-windows-cas/SKILL.md
+    tool_ids:
+      - matlab
+      - maple-cli
+      - wolframscript
+      - maxima
+      - julia
+      - rscript
+      - octave
+    status: available
+  - id: math-commalg
+    path: skills/math-commalg/SKILL.md
+    tool_ids:
+      - gap-wsl
+      - singular-wsl
+      - macaulay2-wsl
+      - oscar-wsl
+      - magma-web
+    status: available
+  - id: math-formal-provers
+    path: skills/math-formal-provers/SKILL.md
+    tool_ids:
+      - lean
+      - lake
+      - rocq
+      - isabelle-wsl
+      - agda-wsl
+      - ghc-cabal-wsl
+      - aristotle-cli
+    status: available
+
+groups:
+  - id: python-exact
+    tool_ids:
+      - python
+      - python-scientific-stack
+  - id: wsl-algebra
+    tool_ids:
+      - sagemath-wsl
+      - gap-sage
+      - singular-sage
+      - gap-wsl
+      - singular-wsl
+      - macaulay2-wsl
+      - oscar-wsl
+  - id: windows-cas
+    tool_ids:
+      - matlab
+      - maple-cli
+      - wolframscript
+      - maxima
+      - julia
+      - rscript
+      - octave
+  - id: formal-provers
+    tool_ids:
+      - lean
+      - lake
+      - rocq
+      - isabelle-wsl
+      - agda-wsl
+      - ghc-cabal-wsl
+      - aristotle-cli
+
+adapters:
+  - id: python-exact-runner
+    path: tools/adapters/python-exact-runner.yaml
+    status: available
+  - id: registry-tool-runner
+    path: tools/adapters/registry-tool-runner.yaml
+    status: available
+  - id: wsl-algebra-runner
+    path: tools/adapters/wsl-algebra-runner.yaml
+    status: available
+  - id: windows-cas-runner
+    path: tools/adapters/windows-cas-runner.yaml
+    status: available
+  - id: formal-tool-runner
+    path: tools/adapters/formal-tool-runner.yaml
+    status: available
+
+reviewed_open_source_skills:
+  - id: lean4-skills
+    applies_to:
+      - lean
+      - lake
+    source_url: https://github.com/cameronfreer/lean4-skills
+    license: MIT
+    reuse_policy: reference-only
+    notes: >
+      Reviewed as a Lean/Lake workflow source. Do not install or delegate proof
+      authority to it without a separate review.
+  - id: rocq-skills
+    applies_to:
+      - rocq
+    source_url: https://github.com/llm4rocq/rocq-skills
+    license: reported-conflicting-MIT-or-Apache-2.0
+    reuse_policy: reference-only
+    notes: >
+      Catalog metadata and README text disagree on license. Treat as
+      reference-only until the upstream LICENSE file is checked directly.
+  - id: agda-claude-skills
+    applies_to:
+      - agda-wsl
+    source_url: https://github.com/input-output-hk/agda-claude-skills
+    license: not-detected
+    reuse_policy: reference-only
+    notes: >
+      Use only as workflow inspiration unless upstream license is confirmed.
+  - id: matlab-skills
+    applies_to:
+      - matlab
+      - octave
+    source_url: https://github.com/matlab/agent-skills-playground
+    license: MathWorks-BSD-3-Clause
+    reuse_policy: reference-only
+  - id: sagemath-skill
+    applies_to:
+      - sagemath-wsl
+    source_url: https://github.com/majiayu000/claude-skill-registry/tree/main/skills/other/other/sagemath
+    license: MIT
+    reuse_policy: reference-only
+    notes: >
+      Upstream assumes a conda environment named sage; this workspace routes
+      Sage through WSL instead.
+  - id: openai-jupyter-notebook
+    applies_to:
+      - ipython-jupyter
+    source_url: https://github.com/openai/skills/tree/main/skills/.curated/jupyter-notebook
+    license: see-source-LICENSE.txt
+    reuse_policy: reference-only
+  - id: do-lang-r
+    applies_to:
+      - rscript
+    source_url: https://github.com/yejune/do-focus
+    license: Apache-2.0
+    reuse_policy: reference-only
+
+tools:
+  - id: python
+    family: python-exact
+    status: verified
+    platform: windows
+    route: native
+    command:
+      - python
+    version_command:
+      - python
+      - --version
+    smoke:
+      command:
+        - python
+        - -c
+        - print(2+2)
+      expected_stdout_contains: "4"
+      timeout_seconds: 30
+    evidence_mode: exact-computation
+    expensive: false
+    licensed: false
+    reproducibility_caveat: Prefer exact arithmetic and record package imports.
+
+  - id: python-scientific-stack
+    family: python-exact
+    status: verified
+    platform: windows
+    route: native
+    command:
+      - python
+    smoke:
+      command:
+        - python
+        - -c
+        - import sympy, numpy, scipy, networkx; print("scientific-stack-ok")
+      expected_stdout_contains: scientific-stack-ok
+      timeout_seconds: 30
+    evidence_mode: exact-computation
+    expensive: false
+    licensed: false
+    reproducibility_caveat: >
+      Exact SymPy results may support claims; floating-point numpy or scipy
+      results are numerical evidence unless independently bounded.
+
+  - id: ipython-jupyter
+    family: notebook
+    status: verified
+    platform: windows
+    route: native
+    command:
+      - python
+      - -m
+      - jupyter
+    version_command:
+      - python
+      - -m
+      - jupyter
+      - --version
+    smoke:
+      command:
+        - python
+        - -m
+        - IPython
+        - --version
+      timeout_seconds: 30
+    evidence_mode: finite-experiment
+    expensive: false
+    licensed: false
+    reproducibility_caveat: >
+      Notebooks are exploratory records until their reusable code and outputs
+      are saved under experiments/.
+
+  - id: matlab
+    family: windows-cas
+    status: verified
+    platform: windows
+    route: native
+    command:
+      - D:\matlab\bin\matlab.exe
+    version_command:
+      - D:\matlab\bin\matlab.exe
+      - -batch
+      - disp(version)
+    smoke:
+      command:
+        - D:\matlab\bin\matlab.exe
+        - -batch
+        - disp(2+2)
+      expected_stdout_contains: "4"
+      timeout_seconds: 120
+    evidence_mode: numerical-evidence
+    expensive: true
+    licensed: true
+    reproducibility_caveat: MATLAB is licensed and heavy; prefer batch mode.
+
+  - id: maple-cli
+    family: windows-cas
+    status: verified
+    platform: windows
+    route: native
+    command:
+      - D:\maple\bin.X86_64_WINDOWS\cmaple.exe
+      - -q
+    version_command:
+      - D:\maple\bin.X86_64_WINDOWS\cmaple.exe
+      - -q
+    smoke:
+      command:
+        - D:\maple\bin.X86_64_WINDOWS\cmaple.exe
+        - -q
+      stdin: "2+2;\nquit;\n"
+      expected_stdout_contains: "4"
+      timeout_seconds: 60
+    evidence_mode: exact-computation
+    expensive: false
+    licensed: true
+    reproducibility_caveat: Maple output can support exact checks when scripts and assumptions are saved.
+
+  - id: wolframscript
+    family: windows-cas
+    status: verified
+    platform: windows
+    route: native
+    command:
+      - C:\Program Files\Wolfram Research\WolframScript\wolframscript.exe
+    version_command:
+      - C:\Program Files\Wolfram Research\WolframScript\wolframscript.exe
+      - -code
+      - $Version
+    smoke:
+      command:
+        - C:\Program Files\Wolfram Research\WolframScript\wolframscript.exe
+        - -code
+        - 2+2
+      expected_stdout_contains: "4"
+      timeout_seconds: 60
+    evidence_mode: exact-computation
+    expensive: false
+    licensed: true
+    reproducibility_caveat: Use script mode and avoid storing Wolfram license data.
+
+  - id: sagemath-wsl
+    family: sage
+    status: verified
+    platform: wsl
+    route: wsl-bash-lc
+    command:
+      - wsl.exe
+      - -d
+      - Ubuntu
+      - --
+      - bash
+      - -lc
+      - sage
+    version_command:
+      - wsl.exe
+      - -d
+      - Ubuntu
+      - --
+      - bash
+      - -lc
+      - sage --version
+    smoke:
+      command:
+        - wsl.exe
+        - -d
+        - Ubuntu
+        - --
+        - bash
+        - -lc
+        - sage -c "print(2+2)"
+      expected_stdout_contains: "4"
+      timeout_seconds: 60
+    evidence_mode: exact-computation
+    expensive: false
+    licensed: false
+    reproducibility_caveat: Route one-liners through WSL bash -lc to avoid PowerShell quoting issues.
+
+  - id: gap-sage
+    family: sage
+    status: verified
+    platform: wsl
+    route: sage-interface
+    command:
+      - wsl.exe
+      - -d
+      - Ubuntu
+      - --
+      - bash
+      - -lc
+      - sage
+    smoke:
+      command:
+        - wsl.exe
+        - -d
+        - Ubuntu
+        - --
+        - bash
+        - -lc
+        - sage -c "from sage.interfaces.gap import gap; print(gap('2+2'))"
+      expected_stdout_contains: "4"
+      timeout_seconds: 60
+    evidence_mode: exact-computation
+    expensive: false
+    licensed: false
+    reproducibility_caveat: This is a Sage interface route, not a standalone GAP CLI.
+
+  - id: singular-sage
+    family: sage
+    status: verified
+    platform: wsl
+    route: sage-interface
+    command:
+      - wsl.exe
+      - -d
+      - Ubuntu
+      - --
+      - bash
+      - -lc
+      - sage
+    smoke:
+      command:
+        - wsl.exe
+        - -d
+        - Ubuntu
+        - --
+        - bash
+        - -lc
+        - sage -c "from sage.interfaces.singular import singular; print(singular('2+2'))"
+      expected_stdout_contains: "4"
+      timeout_seconds: 60
+    evidence_mode: exact-computation
+    expensive: false
+    licensed: false
+    reproducibility_caveat: This is a Sage interface route, not a standalone Singular CLI.
+
+  - id: gap-wsl
+    family: commutative-algebra
+    status: verified
+    platform: wsl
+    route: wsl-conda
+    command:
+      - wsl.exe
+      - -d
+      - Ubuntu
+      - --
+      - /home/leo/miniforge3/envs/math-tools/bin/gap
+      - -q
+    smoke:
+      command:
+        - wsl.exe
+        - -d
+        - Ubuntu
+        - --
+        - bash
+        - -lc
+        - printf "2+2;\nquit;\n" | /home/leo/miniforge3/envs/math-tools/bin/gap -q
+      expected_stdout_contains: "4"
+      timeout_seconds: 60
+    evidence_mode: exact-computation
+    expensive: false
+    licensed: false
+    reproducibility_caveat: Installed in the WSL math-tools conda environment, not on Windows PATH.
+
+  - id: singular-wsl
+    family: commutative-algebra
+    status: verified
+    platform: wsl
+    route: wsl-conda
+    command:
+      - wsl.exe
+      - -d
+      - Ubuntu
+      - --
+      - /home/leo/miniforge3/envs/math-tools/bin/Singular
+    version_command:
+      - wsl.exe
+      - -d
+      - Ubuntu
+      - --
+      - /home/leo/miniforge3/envs/math-tools/bin/Singular
+      - --version
+    smoke:
+      command:
+        - wsl.exe
+        - -d
+        - Ubuntu
+        - --
+        - bash
+        - -lc
+        - printf "2+2;\nquit;\n" | /home/leo/miniforge3/envs/math-tools/bin/Singular -q
+      expected_stdout_contains: "4"
+      timeout_seconds: 60
+    evidence_mode: exact-computation
+    expensive: false
+    licensed: false
+    reproducibility_caveat: Installed in the WSL math-tools conda environment, not on Windows PATH.
+
+  - id: maxima
+    family: windows-cas
+    status: verified
+    platform: windows
+    route: native
+    command:
+      - C:\maxima-5.49.0\bin\maxima.bat
+    smoke:
+      command:
+        - C:\maxima-5.49.0\bin\maxima.bat
+        - --very-quiet
+        - --batch-string=2+2;
+      expected_stdout_contains: "4"
+      timeout_seconds: 60
+    evidence_mode: exact-computation
+    expensive: false
+    licensed: false
+    reproducibility_caveat: Use the absolute path unless PATH is refreshed.
+
+  - id: julia
+    family: windows-cas
+    status: verified
+    platform: windows
+    route: native
+    command:
+      - julia
+    version_command:
+      - julia
+      - --version
+    smoke:
+      command:
+        - julia
+        - -e
+        - println(2+2)
+      expected_stdout_contains: "4"
+      timeout_seconds: 60
+    evidence_mode: exact-computation
+    expensive: false
+    licensed: false
+    reproducibility_caveat: Native Windows Julia works; native OSCAR does not because Polymake is unsupported on Windows.
+
+  - id: oscar-wsl
+    family: commutative-algebra
+    status: verified
+    platform: wsl
+    route: wsl-julia
+    command:
+      - wsl.exe
+      - -d
+      - Ubuntu
+      - --
+      - /home/leo/.juliaup/bin/julia
+    smoke:
+      command:
+        - wsl.exe
+        - -d
+        - Ubuntu
+        - --
+        - bash
+        - -lc
+        - $HOME/.juliaup/bin/julia -e "using Oscar; println(2+2)"
+      expected_stdout_contains: "4"
+      timeout_seconds: 180
+    evidence_mode: exact-computation
+    expensive: true
+    licensed: false
+    reproducibility_caveat: OSCAR loads in WSL Julia; visualization warnings are not computation failures.
+
+  - id: macaulay2-wsl
+    family: commutative-algebra
+    status: verified
+    platform: wsl
+    route: wsl-wrapper
+    command:
+      - wsl.exe
+      - -d
+      - Ubuntu
+      - --
+      - /home/leo/local/bin/M2-codex
+    version_command:
+      - wsl.exe
+      - -d
+      - Ubuntu
+      - --
+      - /home/leo/local/bin/M2-codex
+      - --version
+    smoke:
+      command:
+        - wsl.exe
+        - -d
+        - Ubuntu
+        - --
+        - bash
+        - -lc
+        - printf "2+2\nexit 0\n" | /home/leo/local/bin/M2-codex --no-readline --print-width 80 --stop --no-debug
+      expected_stdout_contains: "4"
+      timeout_seconds: 90
+    evidence_mode: exact-computation
+    expensive: false
+    licensed: false
+    reproducibility_caveat: Use M2-codex; it supplies user-level paths required by the non-sudo install.
+
+  - id: rscript
+    family: windows-cas
+    status: verified
+    platform: windows
+    route: native
+    command:
+      - C:\Program Files\R\R-4.6.0\bin\Rscript.exe
+    version_command:
+      - C:\Program Files\R\R-4.6.0\bin\Rscript.exe
+      - --version
+    smoke:
+      command:
+        - C:\Program Files\R\R-4.6.0\bin\Rscript.exe
+        - -e
+        - cat(2+2)
+      expected_stdout_contains: "4"
+      timeout_seconds: 60
+    evidence_mode: numerical-evidence
+    expensive: false
+    licensed: false
+    reproducibility_caveat: Treat statistical output as numerical evidence unless exact or symbolic.
+
+  - id: octave
+    family: windows-cas
+    status: verified
+    platform: windows
+    route: native
+    command:
+      - C:\Users\Leo\AppData\Local\Programs\GNU Octave\Octave-11.1.0\mingw64\bin\octave-cli.exe
+    version_command:
+      - C:\Users\Leo\AppData\Local\Programs\GNU Octave\Octave-11.1.0\mingw64\bin\octave-cli.exe
+      - --version
+    smoke:
+      command:
+        - C:\Users\Leo\AppData\Local\Programs\GNU Octave\Octave-11.1.0\mingw64\bin\octave-cli.exe
+        - --quiet
+        - --eval
+        - disp(2+2);
+      expected_stdout_contains: "4"
+      timeout_seconds: 60
+    evidence_mode: numerical-evidence
+    expensive: false
+    licensed: false
+    reproducibility_caveat: Use CLI mode; numerical results remain numerical evidence.
+
+  - id: lean
+    family: formal-prover
+    status: verified
+    platform: windows
+    route: native
+    command:
+      - C:\Users\Leo\.elan\bin\lean.exe
+    version_command:
+      - C:\Users\Leo\.elan\bin\lean.exe
+      - --version
+    smoke:
+      command:
+        - C:\Users\Leo\.elan\bin\lean.exe
+        - --version
+      expected_stdout_contains: Lean
+      timeout_seconds: 30
+    evidence_mode: formal-check
+    expensive: false
+    licensed: false
+    reproducibility_caveat: Version checks are not proof checks; save formal files and build logs.
+
+  - id: lake
+    family: formal-prover
+    status: verified
+    platform: windows
+    route: native
+    command:
+      - C:\Users\Leo\.elan\bin\lake.exe
+    version_command:
+      - C:\Users\Leo\.elan\bin\lake.exe
+      - --version
+    smoke:
+      command:
+        - C:\Users\Leo\.elan\bin\lake.exe
+        - --version
+      expected_stdout_contains: Lake
+      timeout_seconds: 30
+    evidence_mode: formal-check
+    expensive: false
+    licensed: false
+    reproducibility_caveat: Lake build output supports formal evidence only for checked project files.
+
+  - id: rocq
+    family: formal-prover
+    status: verified
+    platform: windows
+    route: native
+    command:
+      - C:\Rocq-Platform~9.0~2025.08\bin\rocq.exe
+    version_command:
+      - C:\Rocq-Platform~9.0~2025.08\bin\rocq.exe
+      - --version
+    smoke:
+      command:
+        - C:\Rocq-Platform~9.0~2025.08\bin\rocq.exe
+        - --version
+      expected_stdout_contains: Rocq
+      timeout_seconds: 30
+    evidence_mode: formal-check
+    expensive: false
+    licensed: false
+    reproducibility_caveat: Prefer rocq compile for proof files; legacy coqc/coqtop are secondary routes.
+
+  - id: isabelle-wsl
+    family: formal-prover
+    status: verified
+    platform: wsl
+    route: wsl-native
+    command:
+      - wsl.exe
+      - -d
+      - Ubuntu
+      - --
+      - /home/leo/local/Isabelle2025-2/bin/isabelle
+    version_command:
+      - wsl.exe
+      - -d
+      - Ubuntu
+      - --
+      - /home/leo/local/Isabelle2025-2/bin/isabelle
+      - version
+    smoke:
+      command:
+        - wsl.exe
+        - -d
+        - Ubuntu
+        - --
+        - /home/leo/local/Isabelle2025-2/bin/isabelle
+        - version
+      expected_stdout_contains: Isabelle
+      timeout_seconds: 60
+    evidence_mode: formal-check
+    expensive: false
+    licensed: false
+    reproducibility_caveat: Isabelle sessions need ROOT/session files before builds can support claims.
+
+  - id: agda-wsl
+    family: formal-prover
+    status: verified
+    platform: wsl
+    route: wsl-native
+    command:
+      - wsl.exe
+      - -d
+      - Ubuntu
+      - --
+      - /home/leo/local/agda-2.8.0/agda
+    version_command:
+      - wsl.exe
+      - -d
+      - Ubuntu
+      - --
+      - /home/leo/local/agda-2.8.0/agda
+      - --version
+    smoke:
+      command:
+        - wsl.exe
+        - -d
+        - Ubuntu
+        - --
+        - /home/leo/local/agda-2.8.0/agda
+        - --version
+      expected_stdout_contains: Agda
+      timeout_seconds: 60
+    evidence_mode: formal-check
+    expensive: false
+    licensed: false
+    reproducibility_caveat: Standard library config is user-local; capture Agda library files and command output.
+
+  - id: ghc-cabal-wsl
+    family: formal-prover-support
+    status: verified
+    platform: wsl
+    route: wsl-ghcup
+    command:
+      - wsl.exe
+      - -d
+      - Ubuntu
+      - --
+      - bash
+      - -lc
+      - ghc --version; cabal --version | head -n 1
+    smoke:
+      command:
+        - wsl.exe
+        - -d
+        - Ubuntu
+        - --
+        - bash
+        - -lc
+        - ghc --version; cabal --version | head -n 1
+      expected_stdout_contains: Glasgow
+      timeout_seconds: 60
+    evidence_mode: not-evidence
+    expensive: false
+    licensed: false
+    reproducibility_caveat: Support tool for Agda backend checks, not direct mathematical evidence.
+
+  - id: aristotle-cli
+    family: formal-prover
+    status: verified
+    platform: windows
+    route: native
+    command:
+      - D:\aristotle\.venv\Scripts\aristotle.exe
+    version_command:
+      - D:\aristotle\.venv\Scripts\aristotle.exe
+      - --version
+    smoke:
+      command:
+        - D:\aristotle\.venv\Scripts\aristotle.exe
+        - --version
+      expected_stdout_contains: aristotle
+      timeout_seconds: 30
+    evidence_mode: formal-check
+    expensive: false
+    licensed: false
+    reproducibility_caveat: Requires user-level API credentials; never store credentials in this repo.
+
+  - id: magma-web
+    family: proprietary-fallback
+    status: not-configured
+    platform: web
+    route: web-calculator
+    command:
+      - https://magma.maths.usyd.edu.au/calc/
+    evidence_mode: reference-only
+    expensive: false
+    licensed: true
+    reproducibility_caveat: Web fallback only for small non-private checks; not suitable as durable evidence.

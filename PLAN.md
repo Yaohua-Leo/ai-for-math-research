@@ -26,7 +26,7 @@ Deliverables:
 Goal: demonstrate the artifact chain without making the framework
 domain-specific.
 
-Candidate:
+Implemented candidate:
 
 ```text
 finite-dimensional chain complex homology toy example
@@ -35,14 +35,44 @@ finite-dimensional chain complex homology toy example
 Artifact chain:
 
 ```text
-CLAIM-0001
-PLAN-0001
-EXP-0001
+CLAIM-0002-toy-homology
+PLAN-0002-toy-homology
+EXP-0002-toy-homology
 output/results.json
-REPORT-0001
+REPORT-0002-toy-homology
 ```
 
 The point is reproducibility, not mathematical novelty.
+
+## Phase 2.5: Machine-Readable Ledger
+
+Goal: make ledger state useful to tools without sacrificing readable Markdown.
+
+Deliverables:
+
+- YAML frontmatter parsed with `PyYAML` and `yaml.safe_load`.
+- Claim dependency and evidence validation.
+- Reproducibility metadata from `scripts/run_experiment.py`.
+- Generated research dashboards: `INDEX.md`, `CLAIM_GRAPH.md`,
+  `OPEN_GAPS.md`, `FAILED_EXPERIMENTS.md`, and `NEXT_ACTIONS.md`.
+- Initial Python exact-runner adapter metadata under `tools/`.
+
+## Phase 2.6: External Math Tool Skills And Registry
+
+Goal: make local external tool use explicit without turning this repository into
+a universal CAS wrapper.
+
+Deliverables:
+
+- Project skills for Python exact computation, Sage, Windows CAS/numerical
+  tools, commutative algebra tools, and formal proof assistants.
+- `tools/registry.yaml` entries for local routes copied from the Jordan
+  workspace tool snapshot.
+- Group-limited runner scripts for registry-defined WSL algebra, Windows CAS,
+  and formal-tool checks.
+- Registry validation through `scripts/check_tools.py`.
+- Tests that cover registry validation, dry-run routing, exact Python smoke
+  metadata, and an opt-in WSL external smoke check.
 
 ## Phase 3: Downstream Validation
 
@@ -65,4 +95,5 @@ experiment status, and report placeholders.
 - Do not add a heavy orchestration harness.
 - Do not add new runtime dependencies unless a concrete need appears.
 - Do not make all experiments run by default.
+- Do not run licensed or expensive external tools by default.
 - Treat failed experiments as useful research artifacts.

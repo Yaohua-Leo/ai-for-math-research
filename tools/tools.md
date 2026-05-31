@@ -11,3 +11,24 @@ The registry should tell an agent:
 
 Do not hardcode a research strategy here. The point is to support autonomous
 tool choice while requiring reproducible evidence.
+
+Machine-readable tool and adapter metadata lives in:
+
+- `tools/registry.yaml`
+- `tools/adapters/python-exact-runner.yaml`
+- `tools/adapters/registry-tool-runner.yaml`
+- `tools/adapters/wsl-algebra-runner.yaml`
+- `tools/adapters/windows-cas-runner.yaml`
+- `tools/adapters/formal-tool-runner.yaml`
+
+Project skill instructions live in `skills/`. They are workflow guidance for
+agents; they do not replace experiments, outputs, or claim evidence.
+
+Use dry-run before executing external tools:
+
+```powershell
+python scripts/run_math_tool.py sagemath-wsl --mode smoke --dry-run
+```
+
+Default validation checks registry shape but does not run expensive or licensed
+tools.

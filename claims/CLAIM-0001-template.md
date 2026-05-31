@@ -1,43 +1,44 @@
-# CLAIM-0001: Template Claim
+---
+schema_version: 1
+id: CLAIM-0001-template
+status: idea
+type: template
+depends_on: []
+evidence: []
+assumptions:
+  - Template only; no mathematical assumptions.
+last_updated: "2026-06-01"
+---
+# CLAIM-0001-template: Template Claim
 
-Status: idea
-
-Statement:
+## Statement
 
 This is a template claim. Replace it with a precise mathematical assertion.
 
-Assumptions:
+## Assumptions
 
 - State all mathematical assumptions explicitly.
 
-Dependencies:
-
-- None yet.
-
-Proof sketch:
+## Proof Sketch
 
 No proof has been supplied.
 
-Known gaps:
+## Known Gaps
 
 - Replace this with the real gap list.
 
-References:
+## References
 
 - None yet.
 
-Computational evidence:
+## Computational Evidence
 
 - None yet.
 
-Formalization status:
+## Formalization Status
 
 Not formalized.
 
-Verification notes:
+## Verification Notes
 
 This template is valid as an example of the required metadata shape.
-
-Last updated:
-
-2026-05-26
