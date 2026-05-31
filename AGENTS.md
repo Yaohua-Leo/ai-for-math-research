@@ -77,6 +77,7 @@ Run these checks before claiming the workspace is healthy:
 python scripts/check_claims.py
 python scripts/check_experiments.py
 python scripts/check_reports.py
+python scripts/check_tools.py
 python scripts/make_index.py
 python -m unittest discover -s tests
 ```

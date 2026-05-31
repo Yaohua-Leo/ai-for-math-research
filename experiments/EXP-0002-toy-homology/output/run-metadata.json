@@ -1,0 +1,29 @@
+{
+  "command": [
+    "C:\\Python314\\python.exe",
+    "D:\\ai-for-math-research\\experiments\\EXP-0002-toy-homology\\run.py"
+  ],
+  "cwd": "D:\\ai-for-math-research",
+  "dependencies": {
+    "PyYAML": "6.0.3"
+  },
+  "exit_code": 0,
+  "experiment": "experiments/EXP-0002-toy-homology",
+  "git_commit": "41353fab8d5f43f32f7acdc2f41cc27a1815bccf",
+  "input_hashes": {},
+  "output_hashes": {
+    "output/results.json": "966f8d47f929912e36975afca12e55581019b4e3d9dd13fa9df0140ffb27dbbb",
+    "output/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/stdout.txt": "766d4ebe72f0b7174292f2e1200c6afa0afd77ecfc572e9b645f95b7a2e3f007"
+  },
+  "platform": "Windows-11-10.0.26100-SP0",
+  "python": {
+    "executable": "C:\\Python314\\python.exe",
+    "version": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]"
+  },
+  "reproduction_command": "python scripts/run_experiment.py EXP-0002-toy-homology",
+  "stderr_path": "experiments/EXP-0002-toy-homology/output/stderr.txt",
+  "stdout_path": "experiments/EXP-0002-toy-homology/output/stdout.txt",
+  "timed_out": false,
+  "timestamp_utc": "2026-05-31T20:45:33.998941+00:00"
+}

@@ -1,0 +1,23 @@
+{
+  "differentials": {
+    "d1": [
+      [
+        1
+      ]
+    ]
+  },
+  "exact_arithmetic": true,
+  "experiment": "EXP-0002-toy-homology",
+  "field": "Q",
+  "homology_dimensions": {
+    "H0": 0,
+    "H1": 0
+  },
+  "mathematical_claims_supported": [
+    "CLAIM-0002-toy-homology"
+  ],
+  "ranks": {
+    "d1": 1
+  },
+  "status": "success"
+}

@@ -1,0 +1,22 @@
+schema_version: 1
+id: python-exact-runner
+status: available
+tool: python
+command:
+  - python
+  - scripts/run_experiment.py
+capabilities:
+  - exact integer arithmetic
+  - exact rational arithmetic
+  - JSON output capture
+  - stdout and stderr capture
+  - reproducibility metadata
+outputs:
+  - output/results.json
+  - output/stdout.txt
+  - output/stderr.txt
+  - output/environment.json
+  - output/run-metadata.json
+notes:
+  - Use standard-library exact arithmetic before floating point.
+  - Record heuristic or numerical limitations in the experiment body.

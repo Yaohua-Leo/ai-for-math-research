@@ -13,6 +13,16 @@ Preferred:
 
 Do not use floating point unless the experiment is explicitly numerical.
 
+The default available adapter is `python-exact-runner`, which routes
+experiments through `scripts/run_experiment.py` and records stdout, stderr,
+JSON output, hashes, and environment metadata.
+
+For registry-level smoke checks, use:
+
+```powershell
+python scripts/run_math_tool.py python --mode smoke --dry-run
+```
+
 ## Commutative Algebra
 
 Preferred:
@@ -23,6 +33,9 @@ Preferred:
 4. OSCAR.
 
 Record input scripts and output files under the experiment directory.
+
+Use `scripts/run_wsl_algebra.py` for WSL-routed Sage, GAP, Singular,
+Macaulay2, or OSCAR smoke checks.
 
 ## Finite Groups And Representations
 
@@ -55,3 +68,6 @@ Preferred:
 
 Formal output should identify the theorem name, source file, command, and tool
 version.
+
+Use `scripts/run_formal_tool.py` for version checks. A version check is not
+formal evidence until paired with checked proof files and build logs.

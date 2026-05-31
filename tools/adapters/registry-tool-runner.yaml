@@ -1,0 +1,21 @@
+schema_version: 1
+id: registry-tool-runner
+status: available
+entrypoint: scripts/run_math_tool.py
+description: >
+  Generic runner for commands declared in tools/registry.yaml. It supports
+  dry-run, version, and smoke modes and captures JSON metadata plus stdout and
+  stderr hashes.
+evidence_outputs:
+  - JSON metadata from --output
+  - stdout and stderr sidecar files when --output is used
+default_command:
+  - python
+  - scripts/run_math_tool.py
+  - python
+  - --mode
+  - smoke
+  - --dry-run
+constraints:
+  - Does not execute tools whose status is not verified unless --allow-unverified is passed.
+  - Does not run expensive or licensed tools unless explicitly selected by the caller.

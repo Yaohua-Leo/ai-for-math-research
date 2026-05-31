@@ -1,6 +1,14 @@
-# REPORT-0001: Template Report
-
-Status: draft
+---
+schema_version: 1
+id: REPORT-0001-template
+status: draft
+claims:
+  - CLAIM-0001-template
+experiments:
+  - EXP-0001-template
+last_updated: "2026-06-01"
+---
+# REPORT-0001-template: Template Report
 
 ## Goal
 

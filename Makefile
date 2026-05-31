@@ -1,4 +1,4 @@
-.PHONY: test lint claims experiments reports index check run-template
+.PHONY: test lint claims experiments reports tools index check run-template
 
 test:
 	python -m unittest discover -s tests
@@ -15,10 +15,13 @@ experiments:
 reports:
 	python scripts/check_reports.py
 
+tools:
+	python scripts/check_tools.py
+
 index:
 	python scripts/make_index.py
 
-check: claims experiments reports test
+check: claims experiments reports tools test
 
 run-template:
 	python scripts/run_experiment.py EXP-0001-template

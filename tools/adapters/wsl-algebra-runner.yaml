@@ -1,0 +1,18 @@
+schema_version: 1
+id: wsl-algebra-runner
+status: available
+entrypoint: scripts/run_wsl_algebra.py
+tool_group: wsl-algebra
+description: >
+  Group-limited wrapper around the registry runner for Sage, GAP, Singular,
+  Macaulay2, and OSCAR routes that pass through WSL.
+default_command:
+  - python
+  - scripts/run_wsl_algebra.py
+  - sagemath-wsl
+  - --mode
+  - smoke
+  - --dry-run
+constraints:
+  - Use WSL bash -lc commands from the registry to avoid PowerShell quoting issues.
+  - Keep generated scripts and output under experiments/.

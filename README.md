@@ -30,6 +30,7 @@ This repository provides that structure.
 - A template for AI-assisted math research projects.
 - A claim ledger.
 - An experiment ledger.
+- A YAML metadata schema for machine-checkable ledger state.
 - A tool registry.
 - A plan, execute, report workflow.
 - A reproducibility discipline.
@@ -92,14 +93,26 @@ ai-for-math-research/
     tools.md
     local-tools.md
     tool-contracts.md
+    registry.yaml
+    adapters/
+
+  skills/
+    math-python-exact/
+    math-sage/
+    math-windows-cas/
+    math-commalg/
+    math-formal-provers/
 
   scripts/
+    ledger.py
     check_claims.py
     check_experiments.py
     check_reports.py
+    check_tools.py
     init_project.py
     make_index.py
     run_experiment.py
+    run_math_tool.py
 
   templates/
     claim.md
@@ -109,10 +122,16 @@ ai-for-math-research/
     report.md
 
   docs/
+    schema.md
     philosophy.md
     workflow.md
     examples.md
     case-study-jordan-quillen.md
+
+  CLAIM_GRAPH.md
+  OPEN_GAPS.md
+  FAILED_EXPERIMENTS.md
+  NEXT_ACTIONS.md
 ```
 
 Domain-specific projects can add directories such as `theory/`, `src/`,
@@ -147,6 +166,45 @@ Reports:
 - `superseded`
 - `blocked`
 
+## Ledger Metadata
+
+Ledger artifacts use YAML frontmatter parsed with `PyYAML` and `safe_load`.
+The Markdown body remains the human-readable research record; the YAML layer is
+for IDs, status, dependencies, evidence, and reproducibility checks.
+
+Example claim metadata:
+
+```yaml
+---
+schema_version: 1
+id: CLAIM-0001
+status: conjecture
+type: theorem
+depends_on: []
+evidence: []
+assumptions: []
+last_updated: "2026-06-01"
+---
+```
+
+See `docs/schema.md` for the schema and evidence vocabulary.
+
+## Tool Skills And Registry
+
+External mathematical tools use a hybrid design:
+
+- `tools/registry.yaml` stores local executable facts, routes, status, caveats,
+  evidence modes, and reviewed third-party skill references.
+- `skills/*/SKILL.md` stores project-specific agent workflows.
+- `scripts/run_math_tool.py` and the group wrappers execute only the selected
+  registry command and capture metadata.
+- Ledger claims and experiments remain tool-neutral by pointing to output JSON,
+  logs, hashes, and command metadata.
+
+Third-party open-source skills are reviewed references only. They are not
+installed automatically and do not become execution authority for this
+workspace.
+
 ## Quick Start
 
 Check the template:
@@ -155,6 +213,7 @@ Check the template:
 python scripts/check_claims.py
 python scripts/check_experiments.py
 python scripts/check_reports.py
+python scripts/check_tools.py
 python scripts/make_index.py
 python -m unittest discover -s tests
 ```
@@ -163,6 +222,18 @@ Run a single experiment:
 
 ```powershell
 python scripts/run_experiment.py EXP-0001-template
+```
+
+Run the complete toy case:
+
+```powershell
+python scripts/run_experiment.py EXP-0002-toy-homology
+```
+
+Dry-run a local tool route without executing it:
+
+```powershell
+python scripts/run_math_tool.py sagemath-wsl --mode smoke --dry-run
 ```
 
 Initialize a downstream project skeleton:

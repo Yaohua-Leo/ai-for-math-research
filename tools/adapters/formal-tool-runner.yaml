@@ -1,0 +1,18 @@
+schema_version: 1
+id: formal-tool-runner
+status: available
+entrypoint: scripts/run_formal_tool.py
+tool_group: formal-provers
+description: >
+  Group-limited wrapper around the registry runner for Lean, Lake, Rocq,
+  Isabelle, Agda, GHC/Cabal support, and Aristotle version or smoke checks.
+default_command:
+  - python
+  - scripts/run_formal_tool.py
+  - lean
+  - --mode
+  - version
+  - --dry-run
+constraints:
+  - Version checks are not formal evidence by themselves.
+  - Formal evidence requires checked proof files and captured build logs.
