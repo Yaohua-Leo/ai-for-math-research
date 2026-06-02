@@ -104,5 +104,32 @@ Allowed evidence modes:
 - `reference-only`
 
 The registry can also list project skills, runner adapters, tool groups, and
-reviewed open-source skills. Reviewed third-party skills are metadata only
-unless a future task explicitly installs or vendors them.
+reviewed open-source skills.
+
+## Repo-Scoped Skill Sources
+
+Repo-scoped Codex skills live under `.agents/skills/`. Their provenance manifest
+lives at `.agents/skills/SOURCES.yaml` and is validated by
+`scripts/check_tools.py`.
+
+Required manifest fields for each skill:
+
+- `id`
+- `installed_path`
+- `install_mode`
+- `source_url`
+- `source_path`
+- `source_sha`
+- `license`
+- `license_status`
+
+Allowed install modes:
+
+- `local-project`
+- `repo-scoped-vendored`
+- `repo-scoped-wrapper`
+
+Vendored third-party skills require a verified license status. Wrapper-only
+skills may record unclear license or unresolved source-path status, but their
+upstream contents are not vendored and they must route execution through
+`tools/registry.yaml`, `scripts/run_*`, and experiment ledger artifacts.

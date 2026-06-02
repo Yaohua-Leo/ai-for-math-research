@@ -4,6 +4,13 @@ This repository supports AI-assisted mathematical research. The goal is to help
 models work like careful research collaborators: explicit assumptions,
 reproducible computations, honest uncertainty, and useful reports.
 
+## Codex Repo Skill
+
+This repository also provides a Codex-discoverable workflow skill at
+`.agents/skills/ai-math-research/SKILL.md`. The skill is a convenience layer for
+Codex IDE/CLI/App users; it does not replace these rules, add an OpenAI API
+backend, or provide a runtime agent service.
+
 ## Non-Negotiable Rules
 
 1. Do not fabricate mathematical results.
