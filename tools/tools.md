@@ -21,8 +21,10 @@ Machine-readable tool and adapter metadata lives in:
 - `tools/adapters/windows-cas-runner.yaml`
 - `tools/adapters/formal-tool-runner.yaml`
 
-Project skill instructions live in `skills/`. They are workflow guidance for
-agents; they do not replace experiments, outputs, or claim evidence.
+Repo-scoped skill instructions live in `.agents/skills/`. They are workflow
+guidance for agents; they do not replace experiments, outputs, registry routes,
+or claim evidence. Skill provenance is recorded in
+`.agents/skills/SOURCES.yaml`.
 
 Use dry-run before executing external tools:
 

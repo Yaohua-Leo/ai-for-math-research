@@ -1,0 +1,124 @@
+schema_version: 1
+manifest_kind: repo-scoped-skill-sources
+last_updated: "2026-06-03"
+skills:
+  - id: ai-math-research
+    installed_path: .agents/skills/ai-math-research
+    install_mode: local-project
+    source_url: local
+    source_path: .agents/skills/ai-math-research
+    source_sha: local
+    license: project-LICENSE
+    license_status: project-license
+    notes: Repo workflow skill maintained in this repository.
+  - id: math-python-exact
+    installed_path: .agents/skills/math-python-exact
+    install_mode: local-project
+    source_url: local
+    source_path: skills/math-python-exact
+    source_sha: local-migrated
+    license: project-LICENSE
+    license_status: project-license
+    notes: Migrated from skills/math-python-exact.
+  - id: math-sage
+    installed_path: .agents/skills/math-sage
+    install_mode: local-project
+    source_url: local
+    source_path: skills/math-sage
+    source_sha: local-migrated
+    license: project-LICENSE
+    license_status: project-license
+    notes: Migrated from skills/math-sage.
+  - id: math-windows-cas
+    installed_path: .agents/skills/math-windows-cas
+    install_mode: local-project
+    source_url: local
+    source_path: skills/math-windows-cas
+    source_sha: local-migrated
+    license: project-LICENSE
+    license_status: project-license
+    notes: Migrated from skills/math-windows-cas.
+  - id: math-commalg
+    installed_path: .agents/skills/math-commalg
+    install_mode: local-project
+    source_url: local
+    source_path: skills/math-commalg
+    source_sha: local-migrated
+    license: project-LICENSE
+    license_status: project-license
+    notes: Migrated from skills/math-commalg.
+  - id: math-formal-provers
+    installed_path: .agents/skills/math-formal-provers
+    install_mode: local-project
+    source_url: local
+    source_path: skills/math-formal-provers
+    source_sha: local-migrated
+    license: project-LICENSE
+    license_status: project-license
+    notes: Migrated from skills/math-formal-provers.
+  - id: lean4-skills
+    trigger_name: lean4
+    installed_path: .agents/skills/lean4-skills
+    install_mode: repo-scoped-vendored
+    source_url: https://github.com/cameronfreer/lean4-skills
+    source_path: plugins/lean4/skills/lean4
+    source_sha: adb2a44083d798e42be3d7489c2a1acf3041551c
+    license: MIT
+    license_status: verified-github-license-api
+    notes: Vendored with a repo-local evidence boundary inserted into SKILL.md.
+  - id: rocq-skills
+    trigger_name: rocq
+    installed_path: .agents/skills/rocq-skills
+    install_mode: repo-scoped-vendored
+    source_url: https://github.com/llm4rocq/rocq-skills
+    source_path: plugins/rocq/skills/rocq
+    source_sha: eff8799628d69e8e4596fd0bf244569a44a26ed8
+    license: Apache-2.0
+    license_status: verified-github-license-api
+    notes: Vendored with a repo-local evidence boundary inserted into SKILL.md.
+  - id: openai-jupyter-notebook
+    trigger_name: jupyter-notebook
+    installed_path: .agents/skills/openai-jupyter-notebook
+    install_mode: repo-scoped-vendored
+    source_url: https://github.com/openai/skills/tree/main/skills/.curated/jupyter-notebook
+    source_path: skills/.curated/jupyter-notebook
+    source_sha: e1d1748cac9e9313c8229763751714628d1f6853
+    license: skill-local-LICENSE.txt
+    license_status: verified-skill-license-file
+    notes: Vendored with a repo-local evidence boundary inserted into SKILL.md.
+  - id: agda-claude-skills
+    installed_path: .agents/skills/agda-claude-skills
+    install_mode: repo-scoped-wrapper
+    source_url: https://github.com/input-output-hk/agda-claude-skills
+    source_path: agda-find-reproducer/SKILL.md; agda-typecheck-profile/SKILL.md
+    source_sha: 1e2a942990adc293023b04d062baa2f553924a82; d9893a1c3e879406e1c7370c7cf4e56132f08f0d
+    license: not-detected
+    license_status: missing-license-file
+    notes: Wrapper only; upstream content not vendored.
+  - id: matlab-skills
+    installed_path: .agents/skills/matlab-skills
+    install_mode: repo-scoped-wrapper
+    source_url: https://github.com/matlab/agent-skills-playground
+    source_path: skills/matlab-symbolic-math/SKILL.md
+    source_sha: 2cb65f175a9839470cf3ad53221a82db87e298bc
+    license: NOASSERTION
+    license_status: repo-license-noassertion
+    notes: Wrapper only; MATLAB remains licensed and no credentials are stored.
+  - id: sagemath-skill
+    installed_path: .agents/skills/sagemath-skill
+    install_mode: repo-scoped-wrapper
+    source_url: https://github.com/majiayu000/claude-skill-registry/tree/main/skills/other/other/sagemath
+    source_path: unresolved
+    source_sha: 404-not-found
+    license: MIT
+    license_status: verified-repo-license-api-source-path-unresolved
+    notes: Wrapper only until source path is confirmed.
+  - id: do-lang-r
+    installed_path: .agents/skills/do-lang-r
+    install_mode: repo-scoped-wrapper
+    source_url: https://github.com/yejune/do-focus
+    source_path: .claude/skills/do-lang-r/SKILL.md
+    source_sha: c0632dfb9bf85c9ecc545abbe27e71b3781cdfcd
+    license: not-detected
+    license_status: missing-license-file
+    notes: Wrapper only; upstream content not vendored.

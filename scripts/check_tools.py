@@ -26,7 +26,18 @@ VALID_EVIDENCE_MODES = {
     "not-evidence",
     "reference-only",
 }
+VALID_REUSE_POLICIES = {
+    "reference-only",
+    "repo-scoped-vendored",
+    "repo-scoped-wrapper",
+}
+VALID_INSTALL_MODES = {
+    "local-project",
+    "repo-scoped-vendored",
+    "repo-scoped-wrapper",
+}
 ID_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
+SOURCES_MANIFEST = ROOT / ".agents" / "skills" / "SOURCES.yaml"
 
 
 def _as_list(value: Any, field: str, failures: list[str]) -> list[Any]:
@@ -49,26 +60,116 @@ def _path_exists(path_value: Any, field: str, failures: list[str]) -> None:
         failures.append(f"{field} path does not exist: {path_value}")
 
 
+def _parse_skill_metadata(path: Path, failures: list[str]) -> dict[str, Any] | None:
+    try:
+        artifact = parse_frontmatter(path.read_text(encoding="utf-8"), path)
+    except LedgerError as exc:
+        failures.append(str(exc))
+        return None
+    metadata = artifact.metadata
+    description = metadata.get("description")
+    if not isinstance(description, str) or not description.strip():
+        failures.append(f"skill {path} needs a non-empty description")
+    return metadata
+
+
 def _validate_skill(path_value: str, expected_id: str, failures: list[str]) -> None:
     path = ROOT / path_value
     if not path.exists():
         failures.append(f"skill path does not exist: {path_value}")
         return
-    try:
-        artifact = parse_frontmatter(path.read_text(encoding="utf-8"), path)
-    except LedgerError as exc:
-        failures.append(str(exc))
+    metadata = _parse_skill_metadata(path, failures)
+    if metadata is None:
         return
 
-    metadata = artifact.metadata
     name = metadata.get("name")
-    description = metadata.get("description")
     if name != expected_id:
         failures.append(
             f"skill {path_value} name {name!r} does not match {expected_id}"
         )
-    if not isinstance(description, str) or not description.strip():
-        failures.append(f"skill {path_value} needs a non-empty description")
+
+
+def _validate_installed_skill(
+    path_value: Any,
+    field: str,
+    failures: list[str],
+    expected_name: str | None = None,
+) -> None:
+    if not isinstance(path_value, str) or not path_value:
+        failures.append(f"{field} must be a non-empty string path")
+        return
+    path = ROOT / path_value
+    if path.is_dir():
+        path = path / "SKILL.md"
+    if not path.exists():
+        failures.append(f"{field} path does not exist: {path_value}")
+        return
+    metadata = _parse_skill_metadata(path, failures)
+    if metadata is None:
+        return
+    name = metadata.get("name")
+    if not isinstance(name, str) or not ID_RE.fullmatch(name):
+        failures.append(f"{field} skill name must be lowercase hyphen id")
+    if expected_name is not None and name != expected_name:
+        failures.append(
+            f"{field} skill name {name!r} does not match {expected_name}"
+        )
+
+
+def _validate_sources_manifest(failures: list[str]) -> None:
+    if not SOURCES_MANIFEST.exists():
+        failures.append(".agents/skills/SOURCES.yaml is required")
+        return
+    try:
+        manifest = yaml.safe_load(SOURCES_MANIFEST.read_text(encoding="utf-8"))
+    except (OSError, yaml.YAMLError) as exc:
+        failures.append(f"{SOURCES_MANIFEST}: {exc}")
+        return
+    if not isinstance(manifest, dict):
+        failures.append(".agents/skills/SOURCES.yaml must be a mapping")
+        return
+    if manifest.get("schema_version") != 1:
+        failures.append(".agents/skills/SOURCES.yaml schema_version must be 1")
+
+    skills = _as_list(manifest.get("skills"), "SOURCES.yaml.skills", failures)
+    seen_ids: set[str] = set()
+    for index, skill in enumerate(skills):
+        prefix = f"SOURCES.yaml.skills[{index}]"
+        if not isinstance(skill, dict):
+            failures.append(f"{prefix} must be a mapping")
+            continue
+        skill_id = skill.get("id")
+        if not isinstance(skill_id, str) or not ID_RE.fullmatch(skill_id):
+            failures.append(f"{prefix}.id must be lowercase hyphen id")
+        elif skill_id in seen_ids:
+            failures.append(f"duplicate source skill id {skill_id}")
+        else:
+            seen_ids.add(skill_id)
+
+        for field in (
+            "installed_path",
+            "install_mode",
+            "source_url",
+            "source_path",
+            "source_sha",
+            "license",
+            "license_status",
+        ):
+            if not isinstance(skill.get(field), str) or not skill.get(field):
+                failures.append(f"{prefix}.{field} must be a non-empty string")
+
+        install_mode = skill.get("install_mode")
+        if install_mode not in VALID_INSTALL_MODES:
+            failures.append(f"{prefix}.install_mode invalid: {install_mode!r}")
+
+        expected_name = skill.get("trigger_name", skill_id)
+        if isinstance(expected_name, str):
+            _validate_installed_skill(
+                skill.get("installed_path"),
+                f"{prefix}.installed_path",
+                failures,
+                expected_name=expected_name,
+            )
 
 
 def validate_registry(path: Path = DEFAULT_REGISTRY) -> list[str]:
@@ -80,6 +181,8 @@ def validate_registry(path: Path = DEFAULT_REGISTRY) -> list[str]:
 
     if registry.get("schema_version") != 1:
         failures.append("schema_version must be 1")
+
+    _validate_sources_manifest(failures)
 
     tools = _as_list(registry.get("tools"), "tools", failures)
     tool_ids: set[str] = set()
@@ -164,6 +267,11 @@ def validate_registry(path: Path = DEFAULT_REGISTRY) -> list[str]:
             failures.append(f"{prefix}.id must be lowercase hyphen id")
             continue
         if isinstance(path_value, str):
+            normalized = path_value.replace("\\", "/")
+            if normalized.startswith("skills/"):
+                failures.append(
+                    f"{prefix}.path must use .agents/skills/, not {path_value}"
+                )
             _validate_skill(path_value, skill_id, failures)
         else:
             failures.append(f"{prefix}.path must be a string")
@@ -194,9 +302,48 @@ def validate_registry(path: Path = DEFAULT_REGISTRY) -> list[str]:
         if not isinstance(skill, dict):
             failures.append(f"{prefix} must be a mapping")
             continue
-        for field in ("id", "source_url", "license", "reuse_policy"):
+        for field in (
+            "id",
+            "source_url",
+            "source_path",
+            "source_sha",
+            "installed_path",
+            "install_mode",
+            "license",
+            "license_status",
+            "reuse_policy",
+        ):
             if not isinstance(skill.get(field), str) or not skill.get(field):
                 failures.append(f"{prefix}.{field} must be a non-empty string")
+        reuse_policy = skill.get("reuse_policy")
+        if reuse_policy not in VALID_REUSE_POLICIES:
+            failures.append(f"{prefix}.reuse_policy invalid: {reuse_policy!r}")
+        install_mode = skill.get("install_mode")
+        if install_mode not in VALID_INSTALL_MODES:
+            failures.append(f"{prefix}.install_mode invalid: {install_mode!r}")
+        if reuse_policy in {"repo-scoped-vendored", "repo-scoped-wrapper"}:
+            _validate_installed_skill(
+                skill.get("installed_path"),
+                f"{prefix}.installed_path",
+                failures,
+            )
+            if install_mode != reuse_policy:
+                failures.append(
+                    f"{prefix}.install_mode must match reuse_policy {reuse_policy}"
+                )
+        if reuse_policy == "repo-scoped-vendored":
+            license_status = skill.get("license_status")
+            license_value = skill.get("license")
+            if not isinstance(license_status, str) or not license_status.startswith(
+                "verified"
+            ):
+                failures.append(
+                    f"{prefix}.license_status must be verified for vendored skills"
+                )
+            if license_value in {"not-detected", "NOASSERTION"}:
+                failures.append(
+                    f"{prefix}.license cannot be {license_value} when vendored"
+                )
 
     return failures
 

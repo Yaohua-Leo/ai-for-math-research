@@ -1,6 +1,6 @@
 schema_version: 1
 registry_kind: math-tool-registry
-last_updated: "2026-06-01"
+last_updated: "2026-06-03"
 source_snapshot:
   path: D:\learning\(co)homology_of_Jordan\codex\local-math-tools.md
   last_checked: "2026-05-24"
@@ -10,20 +10,20 @@ source_snapshot:
 
 project_skills:
   - id: math-python-exact
-    path: skills/math-python-exact/SKILL.md
+    path: .agents/skills/math-python-exact/SKILL.md
     tool_ids:
       - python
       - python-scientific-stack
     status: available
   - id: math-sage
-    path: skills/math-sage/SKILL.md
+    path: .agents/skills/math-sage/SKILL.md
     tool_ids:
       - sagemath-wsl
       - gap-sage
       - singular-sage
     status: available
   - id: math-windows-cas
-    path: skills/math-windows-cas/SKILL.md
+    path: .agents/skills/math-windows-cas/SKILL.md
     tool_ids:
       - matlab
       - maple-cli
@@ -34,7 +34,7 @@ project_skills:
       - octave
     status: available
   - id: math-commalg
-    path: skills/math-commalg/SKILL.md
+    path: .agents/skills/math-commalg/SKILL.md
     tool_ids:
       - gap-wsl
       - singular-wsl
@@ -43,7 +43,7 @@ project_skills:
       - magma-web
     status: available
   - id: math-formal-provers
-    path: skills/math-formal-provers/SKILL.md
+    path: .agents/skills/math-formal-provers/SKILL.md
     tool_ids:
       - lean
       - lake
@@ -110,56 +110,103 @@ reviewed_open_source_skills:
       - lean
       - lake
     source_url: https://github.com/cameronfreer/lean4-skills
+    source_path: plugins/lean4/skills/lean4
+    source_sha: adb2a44083d798e42be3d7489c2a1acf3041551c
+    installed_path: .agents/skills/lean4-skills
+    install_mode: repo-scoped-vendored
     license: MIT
-    reuse_policy: reference-only
+    license_status: verified-github-license-api
+    reuse_policy: repo-scoped-vendored
     notes: >
-      Reviewed as a Lean/Lake workflow source. Do not install or delegate proof
-      authority to it without a separate review.
+      Vendored as a repo-scoped skill with a local evidence-boundary preface.
+      Use only through registry/runners/ledger discipline; do not delegate
+      proof authority to the skill itself.
   - id: rocq-skills
     applies_to:
       - rocq
     source_url: https://github.com/llm4rocq/rocq-skills
-    license: reported-conflicting-MIT-or-Apache-2.0
-    reuse_policy: reference-only
+    source_path: plugins/rocq/skills/rocq
+    source_sha: eff8799628d69e8e4596fd0bf244569a44a26ed8
+    installed_path: .agents/skills/rocq-skills
+    install_mode: repo-scoped-vendored
+    license: Apache-2.0
+    license_status: verified-github-license-api
+    reuse_policy: repo-scoped-vendored
     notes: >
-      Catalog metadata and README text disagree on license. Treat as
-      reference-only until the upstream LICENSE file is checked directly.
+      Vendored as a repo-scoped skill with a local evidence-boundary preface.
+      Use only through registry/runners/ledger discipline; do not delegate
+      proof authority to the skill itself.
   - id: agda-claude-skills
     applies_to:
       - agda-wsl
     source_url: https://github.com/input-output-hk/agda-claude-skills
+    source_path: agda-find-reproducer/SKILL.md; agda-typecheck-profile/SKILL.md
+    source_sha: 1e2a942990adc293023b04d062baa2f553924a82; d9893a1c3e879406e1c7370c7cf4e56132f08f0d
+    installed_path: .agents/skills/agda-claude-skills
+    install_mode: repo-scoped-wrapper
     license: not-detected
-    reuse_policy: reference-only
+    license_status: missing-license-file
+    reuse_policy: repo-scoped-wrapper
     notes: >
-      Use only as workflow inspiration unless upstream license is confirmed.
+      Wrapper-only repo skill. Upstream content is not vendored until license
+      status is confirmed.
   - id: matlab-skills
     applies_to:
       - matlab
       - octave
     source_url: https://github.com/matlab/agent-skills-playground
-    license: MathWorks-BSD-3-Clause
-    reuse_policy: reference-only
+    source_path: skills/matlab-symbolic-math/SKILL.md
+    source_sha: 2cb65f175a9839470cf3ad53221a82db87e298bc
+    installed_path: .agents/skills/matlab-skills
+    install_mode: repo-scoped-wrapper
+    license: NOASSERTION
+    license_status: repo-license-noassertion
+    reuse_policy: repo-scoped-wrapper
+    notes: >
+      Wrapper-only repo skill. MATLAB is licensed; never store credentials,
+      activation data, or license files in this repository.
   - id: sagemath-skill
     applies_to:
       - sagemath-wsl
     source_url: https://github.com/majiayu000/claude-skill-registry/tree/main/skills/other/other/sagemath
+    source_path: unresolved
+    source_sha: 404-not-found
+    installed_path: .agents/skills/sagemath-skill
+    install_mode: repo-scoped-wrapper
     license: MIT
-    reuse_policy: reference-only
+    license_status: verified-repo-license-api-source-path-unresolved
+    reuse_policy: repo-scoped-wrapper
     notes: >
-      Upstream assumes a conda environment named sage; this workspace routes
-      Sage through WSL instead.
+      Wrapper-only repo skill because the candidate source path was unresolved.
+      This workspace routes Sage through WSL instead.
   - id: openai-jupyter-notebook
     applies_to:
       - ipython-jupyter
     source_url: https://github.com/openai/skills/tree/main/skills/.curated/jupyter-notebook
+    source_path: skills/.curated/jupyter-notebook
+    source_sha: e1d1748cac9e9313c8229763751714628d1f6853
+    installed_path: .agents/skills/openai-jupyter-notebook
+    install_mode: repo-scoped-vendored
     license: see-source-LICENSE.txt
-    reuse_policy: reference-only
+    license_status: verified-skill-license-file
+    reuse_policy: repo-scoped-vendored
+    notes: >
+      Vendored as a repo-scoped skill with a local evidence-boundary preface.
+      Notebooks remain experiment artifacts, not theorem authority.
   - id: do-lang-r
     applies_to:
       - rscript
     source_url: https://github.com/yejune/do-focus
-    license: Apache-2.0
-    reuse_policy: reference-only
+    source_path: .claude/skills/do-lang-r/SKILL.md
+    source_sha: c0632dfb9bf85c9ecc545abbe27e71b3781cdfcd
+    installed_path: .agents/skills/do-lang-r
+    install_mode: repo-scoped-wrapper
+    license: not-detected
+    license_status: missing-license-file
+    reuse_policy: repo-scoped-wrapper
+    notes: >
+      Wrapper-only repo skill. Upstream content is not vendored until license
+      status is confirmed.
 
 tools:
   - id: python

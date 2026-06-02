@@ -21,6 +21,55 @@ class ToolRegistryTests(unittest.TestCase):
     def test_current_registry_is_valid(self) -> None:
         self.assertEqual(check_tools.validate_registry(), [])
 
+    def test_project_skill_paths_must_be_repo_scoped(self) -> None:
+        registry = _temporary_registry(
+            """\
+            schema_version: 1
+            tools: []
+            project_skills:
+              - id: math-python-exact
+                path: skills/math-python-exact/SKILL.md
+                tool_ids: []
+            """
+        )
+
+        failures = check_tools.validate_registry(registry)
+
+        self.assertTrue(
+            any("must use .agents/skills/" in failure for failure in failures),
+            failures,
+        )
+
+    def test_vendored_skills_require_verified_license(self) -> None:
+        registry = _temporary_registry(
+            """\
+            schema_version: 1
+            tools: []
+            reviewed_open_source_skills:
+              - id: example-vendored
+                applies_to: []
+                source_url: https://example.invalid/repo
+                source_path: skills/example
+                source_sha: abc123
+                installed_path: .agents/skills/lean4-skills
+                install_mode: repo-scoped-vendored
+                license: NOASSERTION
+                license_status: missing-license-file
+                reuse_policy: repo-scoped-vendored
+            """
+        )
+
+        failures = check_tools.validate_registry(registry)
+
+        self.assertTrue(
+            any("license_status must be verified" in failure for failure in failures),
+            failures,
+        )
+        self.assertTrue(
+            any("license cannot be NOASSERTION" in failure for failure in failures),
+            failures,
+        )
+
     def test_dry_run_for_wsl_algebra_does_not_execute_tool(self) -> None:
         payload = tool_runner.run_tool(
             "sagemath-wsl",

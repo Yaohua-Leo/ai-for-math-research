@@ -67,6 +67,24 @@ ai-for-math-research/
   Makefile
   pyproject.toml
 
+  .agents/
+    skills/
+      SOURCES.yaml
+      ai-math-research/
+        SKILL.md
+      math-python-exact/
+      math-sage/
+      math-windows-cas/
+      math-commalg/
+      math-formal-provers/
+      lean4-skills/
+      rocq-skills/
+      openai-jupyter-notebook/
+      agda-claude-skills/
+      matlab-skills/
+      sagemath-skill/
+      do-lang-r/
+
   problem/
     problem.md
     background.md
@@ -96,13 +114,6 @@ ai-for-math-research/
     registry.yaml
     adapters/
 
-  skills/
-    math-python-exact/
-    math-sage/
-    math-windows-cas/
-    math-commalg/
-    math-formal-provers/
-
   scripts/
     ledger.py
     check_claims.py
@@ -126,6 +137,7 @@ ai-for-math-research/
     philosophy.md
     workflow.md
     examples.md
+    codex-workflow.md
     case-study-jordan-quillen.md
 
   CLAIM_GRAPH.md
@@ -194,16 +206,52 @@ See `docs/schema.md` for the schema and evidence vocabulary.
 External mathematical tools use a hybrid design:
 
 - `tools/registry.yaml` stores local executable facts, routes, status, caveats,
-  evidence modes, and reviewed third-party skill references.
-- `skills/*/SKILL.md` stores project-specific agent workflows.
+  evidence modes, runner bindings, and third-party skill install metadata.
+- `.agents/skills/*/SKILL.md` stores repo-scoped Codex skills, including local
+  tool workflows and reviewed third-party skills or wrappers.
+- `.agents/skills/SOURCES.yaml` records provenance, source paths, source SHAs,
+  install mode, and license status for repo-scoped skills.
 - `scripts/run_math_tool.py` and the group wrappers execute only the selected
   registry command and capture metadata.
 - Ledger claims and experiments remain tool-neutral by pointing to output JSON,
   logs, hashes, and command metadata.
 
-Third-party open-source skills are reviewed references only. They are not
-installed automatically and do not become execution authority for this
-workspace.
+Third-party skills are license-gated. Lean, Rocq, and OpenAI Jupyter Notebook
+are repo-scoped vendored skills with local evidence-boundary prefaces. Agda,
+MATLAB, SageMath, and R remain wrapper-only until their license or source path
+status is clear. No skill becomes execution authority for this workspace;
+tool output is evidence only when recorded through the registry, runners, and
+ledger.
+
+## Use With Codex
+
+This repository includes a repo-scoped Codex skill:
+
+```text
+.agents/skills/ai-math-research/SKILL.md
+```
+
+Use it from the Codex IDE extension, Codex CLI, or Codex app when you want Codex
+to work directly in this repository. The skill teaches Codex to follow the
+research ledger workflow: read the problem, plan, index, affected artifacts, and
+tool registry; write plans, claims, experiments, and reports in the right
+places; and keep proof, computation, conjecture, refutation, and blocked status
+separate.
+
+To force the skill in a prompt, write:
+
+```text
+$ai-math-research
+```
+
+The skill is not an OpenAI API backend, Agents SDK runtime, Codex MCP backend,
+HTTP service, or web UI. Model access, authentication, permissions, sandboxing,
+and billing remain handled by the Codex product surface you are using.
+
+Restart Codex after installing or changing repo-scoped skills so the new skill
+metadata is picked up.
+
+See `docs/codex-workflow.md` for usage examples.
 
 ## Quick Start
 
